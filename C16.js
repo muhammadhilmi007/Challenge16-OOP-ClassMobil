@@ -13,6 +13,35 @@
         total mobil yang ada adalah 12 mobil hasil dari dua kali produksi, dan ketika melakukan simulasi garansi kedua belas mobil dilakukan
         perhitungan status garansi pada tahun 2025.
 
+Driver Code:
+class BanMobil {
+  constructor(brand, ukuran) {
+    
+  }
+}
+
+class Mobil {
+
+}
+
+class PabrikMobil {
+  constructor() {
+this.mobil2 = []
+  }
+
+  produksiMobil(tahun) {
+
+  }
+
+  simulasiGaransi(tahun) {
+
+  }
+}
+
+const toyota = new PabrikMobil()
+toyota.produksiMobil(2020)
+toyota.produksiMobil(2022)
+toyota.simulasiGaransi(2025)
 
 Output:
 hasil produksi:
@@ -38,6 +67,8 @@ warranty    : 1 year
 
 status on 2025 this guarantee status is expired
 
+Keyword: OOP, Inheritance, Class, Composition, Aggregation, static method, prototype method
+
 */
 
 class BanMobil {
@@ -47,22 +78,21 @@ class BanMobil {
   }
 }
 
-class Mobil {
-  constructor(varian, pintu, kursi, ban, tahun, garansi) {
+// Class dasar untuk kendaraan
+class Kendaraan {
+  constructor(varian, pintu, kursi, tahun) {
     this.varian = varian;
-    this.pintu = pintu;
+    this.pintu = pintu; 
     this.kursi = kursi;
-    this.ban = ban;
     this.tahun = tahun;
-    this.garansi = garansi;
-    this.sn = this.generateSN(); // generate serial number
+    this.sn = this.generateSN();
   }
 
   generateSN() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-      /[xy]/g,
+      /[xy]/g, // RegEx
       function (c) {
-        const r = (Math.random() * 16) | 0, // Kembalikan angka acak antara 0 (inklusif) dan 16 (eksklusif)
+        const r = (Math.random() * 16) | 0,
           v = c == "x" ? r : (r & 0x3) | 0x8;
         return v.toString(16);
       }
@@ -70,9 +100,20 @@ class Mobil {
   }
 }
 
-class PabrikMobil {
+// Mobil mewarisi properti dan method dari Kendaraan
+class Mobil extends Kendaraan {
+  constructor(varian, pintu, kursi, ban, tahun, garansi) {
+    super(varian, pintu, kursi, tahun);
+    this.ban = ban;
+    this.garansi = garansi;
+  }
+}
+
+// PabrikMobil mewarisi dari Kendaraan untuk menggunakan method generateSN
+class PabrikMobil extends Kendaraan {
   constructor() {
-    this.mobil2 = [];
+    super();
+    this.mobil2 = []; // Array untuk menyimpan data
     this.varian = ["agya", "rush", "avanza", "innova", "zenix", "camry"];
     this.ban = [
       new BanMobil("dunlop", "15 inch"),
@@ -83,10 +124,9 @@ class PabrikMobil {
   }
 
   produksi(tahun) {
-    const jumlahMobil = Math.floor(Math.random() * (8 - 4 + 1)) + 4; // Math Floor - Mengembalikan bilangan bulat terbesar yang kurang dari atau sama dengan argumen
+    const jumlahMobil = Math.floor(Math.random() * (8 - 4 + 1)) + 4;
     for (let i = 0; i < jumlahMobil; i++) {
-      const varian =
-        this.varian[Math.floor(Math.random() * this.varian.length)];
+      const varian = this.varian[Math.floor(Math.random() * this.varian.length)];
       const pintu = Math.random() > 0.5 ? 4 : 2;              
       const kursi = Math.floor(Math.random() * 3 + 4) + " seater";
       const ban = this.ban[Math.floor(Math.random() * this.ban.length)];
@@ -108,7 +148,7 @@ class PabrikMobil {
 
   simulasiGaransi(simulasiTahun) {
     console.log(`\nhasil simulasi garansi semua mobil pada tahun ${simulasiTahun}:`);
-    this.mobil2.forEach((mobil, index) => { // forEach - Menjalankan fungsi untuk setiap elemen dalam array
+    this.mobil2.forEach((mobil, index) => {
       console.log(`\nno. ${index + 1}`);
       console.log(`varian      : ${mobil.varian}`);
       console.log(`sn          : ${mobil.sn}`);

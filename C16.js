@@ -110,16 +110,46 @@ class Car extends Vehicle {
 }
 
 // Merek-merek mobil mewarisi dari Car
-class Toyota extends Car {
-  constructor(varians, door, seat, tyre, year, guarantee) {
-    super(varians, door, seat, tyre, year, guarantee);
+class Agya extends Car {
+  constructor(tyre, year, guarantee) {
+    super("agya", 4, "4 seater", tyre, year, guarantee);
+  }
+}
+
+class Rush extends Car {
+  constructor(tyre, year, guarantee) {
+    super("rush", 4, "7 seater", tyre, year, guarantee);
+  }
+}
+
+class Avanza extends Car {
+  constructor(tyre, year, guarantee) {
+    super("avanza", 4, "7 seater", tyre, year, guarantee);
+  }
+}
+
+class Innova extends Car {
+  constructor(tyre, year, guarantee) {
+    super("innova", 4, "8 seater", tyre, year, guarantee);
+  }
+}
+
+class Zenix extends Car {
+  constructor(tyre, year, guarantee) {
+    super("zenix", 4, "8 seater", tyre, year, guarantee);
+  }
+}
+
+class Camry extends Car {
+  constructor(tyre, year, guarantee) {
+    super("camry", 4, "5 seater", tyre, year, guarantee);
   }
 }
 
 class CarFactory {
   constructor() {
     this.cars = []; // Array untuk menyimpan data
-    this.varians = ["agya", "rush", "avanza", "innova", "zenix", "camry"];
+    this.varians = [Agya, Rush, Avanza, Innova, Zenix, Camry];
     this.tyre = [
       new Tyre("dunlop", "15 inch"),
       new Tyre("bridgestone", "16 inch"),
@@ -131,13 +161,11 @@ class CarFactory {
   produce(year) {
     const totalCar = Math.floor(Math.random() * (8 - 4 + 1)) + 4;
     for (let i = 0; i < totalCar; i++) {
-      const varians = this.varians[Math.floor(Math.random() * this.varians.length)];
-      const door = Math.random() > 0.5 ? 4 : 2;              
-      const seat = Math.floor(Math.random() * 3 + 4) + " seater";
+      const CarClass = this.varians[Math.floor(Math.random() * this.varians.length)];
       const tyre = this.tyre[Math.floor(Math.random() * this.tyre.length)];
       const guarantee = Math.floor(Math.random() * 3) + 1;
 
-      const car = new Toyota(varians, door, seat, tyre, year, guarantee);
+      const car = new CarClass(tyre, year, guarantee);
       this.cars.push(car);
 
       console.log(`\nno. ${this.cars.length}`);

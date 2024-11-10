@@ -71,20 +71,20 @@ Keyword: OOP, Inheritance, Class, Composition, Aggregation, static method, proto
 
 */
 
-class BanMobil {
-  constructor(brand, ukuran) {
+class Tyre {
+  constructor(brand, size) {
     this.brand = brand;
-    this.ukuran = ukuran;
+    this.size = size;
   }
 }
 
 // Class dasar untuk kendaraan
-class Kendaraan {
-  constructor(varian, pintu, kursi, tahun) {
-    this.varian = varian;
-    this.pintu = pintu; 
-    this.kursi = kursi;
-    this.tahun = tahun;
+class Vehicle {
+  constructor(varians, door, seat, year) {
+    this.varians = varians;
+    this.door = door; 
+    this.seat = seat;
+    this.year = year;
     this.sn = this.generateSN();
   }
 
@@ -100,79 +100,84 @@ class Kendaraan {
   }
 }
 
-// Mobil mewarisi properti dan method dari Kendaraan
-class Mobil extends Kendaraan {
-  constructor(varian, pintu, kursi, ban, tahun, garansi) {
-    super(varian, pintu, kursi, tahun);
-    this.ban = ban;
-    this.garansi = garansi;
+// Class dasar untuk mobil
+class Car extends Vehicle {
+  constructor(varians, door, seat, tyre, year, guarantee) {
+    super(varians, door, seat, year);
+    this.tyre = tyre;
+    this.guarantee = guarantee;
   }
 }
 
-// PabrikMobil mewarisi dari Kendaraan untuk menggunakan method generateSN
-class PabrikMobil extends Kendaraan {
+// Merek-merek mobil mewarisi dari Car
+class Toyota extends Car {
+  constructor(varians, door, seat, tyre, year, guarantee) {
+    super(varians, door, seat, tyre, year, guarantee);
+  }
+}
+
+class CarFactory {
   constructor() {
-    super();
-    this.mobil2 = []; // Array untuk menyimpan data
-    this.varian = ["agya", "rush", "avanza", "innova", "zenix", "camry"];
-    this.ban = [
-      new BanMobil("dunlop", "15 inch"),
-      new BanMobil("bridgestone", "16 inch"),
-      new BanMobil("michelin", "17 inch"),
-      new BanMobil("goodyear", "18 inch")
+    this.cars = []; // Array untuk menyimpan data
+    this.varians = ["agya", "rush", "avanza", "innova", "zenix", "camry"];
+    this.tyre = [
+      new Tyre("dunlop", "15 inch"),
+      new Tyre("bridgestone", "16 inch"),
+      new Tyre("michelin", "17 inch"),
+      new Tyre("goodyear", "18 inch")
     ];
   }
 
-  produksi(tahun) {
-    const jumlahMobil = Math.floor(Math.random() * (8 - 4 + 1)) + 4;
-    for (let i = 0; i < jumlahMobil; i++) {
-      const varian = this.varian[Math.floor(Math.random() * this.varian.length)];
-      const pintu = Math.random() > 0.5 ? 4 : 2;              
-      const kursi = Math.floor(Math.random() * 3 + 4) + " seater";
-      const ban = this.ban[Math.floor(Math.random() * this.ban.length)];
-      const garansi = Math.floor(Math.random() * 3) + 1;
+  produce(year) {
+    const totalCar = Math.floor(Math.random() * (8 - 4 + 1)) + 4;
+    for (let i = 0; i < totalCar; i++) {
+      const varians = this.varians[Math.floor(Math.random() * this.varians.length)];
+      const door = Math.random() > 0.5 ? 4 : 2;              
+      const seat = Math.floor(Math.random() * 3 + 4) + " seater";
+      const tyre = this.tyre[Math.floor(Math.random() * this.tyre.length)];
+      const guarantee = Math.floor(Math.random() * 3) + 1;
 
-      const mobil = new Mobil(varian, pintu, kursi, ban, tahun, garansi);
-      this.mobil2.push(mobil);
+      const car = new Toyota(varians, door, seat, tyre, year, guarantee);
+      this.cars.push(car);
 
-      console.log(`\nno. ${this.mobil2.length}`);
-      console.log(`varian      : ${mobil.varian}`);
-      console.log(`sn          : ${mobil.sn}`);
-      console.log(`door        : ${mobil.pintu}`);
-      console.log(`seat        : ${mobil.kursi}`);
-      console.log(`tyre        : ${mobil.ban.brand} ${mobil.ban.ukuran}`);
-      console.log(`year        : ${mobil.tahun}`);
-      console.log(`warranty    : ${mobil.garansi} year`);
+      console.log(`\nno. ${this.cars.length}`);
+      console.log(`varian      : ${car.varians}`);
+      console.log(`sn          : ${car.sn}`);
+      console.log(`door        : ${car.door}`);
+      console.log(`seat        : ${car.seat}`);
+      console.log(`tyre        : ${car.tyre.brand} ${car.tyre.size}`);
+      console.log(`year        : ${car.year}`);
+      console.log(`warranty    : ${car.guarantee} year`);
     }
   }
 
-  simulasiGaransi(simulasiTahun) {
-    console.log(`\nhasil simulasi garansi semua mobil pada tahun ${simulasiTahun}:`);
-    this.mobil2.forEach((mobil, index) => {
+  guaranteeSimulation(simulationYear) {
+    console.log(`\nhasil simulasi garansi semua mobil pada tahun ${simulationYear}:`);
+    this.cars.forEach((car, index) => {
       console.log(`\nno. ${index + 1}`);
-      console.log(`varian      : ${mobil.varian}`);
-      console.log(`sn          : ${mobil.sn}`);
-      console.log(`door        : ${mobil.pintu}`);
-      console.log(`seat        : ${mobil.kursi}`);
-      console.log(`tyre        : ${mobil.ban.brand} ${mobil.ban.ukuran}`);
-      console.log(`year        : ${mobil.tahun}`);
-      console.log(`warranty    : ${mobil.garansi} year`);
+      console.log(`varian      : ${car.varians}`);
+      console.log(`sn          : ${car.sn}`);
+      console.log(`door        : ${car.door}`);
+      console.log(`seat        : ${car.seat}`);
+      console.log(`tyre        : ${car.tyre.brand} ${car.tyre.size}`);
+      console.log(`year        : ${car.year}`);
+      console.log(`warranty    : ${car.guarantee} year`);
 
-      const umur = simulasiTahun - mobil.tahun;
-      if (umur > mobil.garansi) {
+      const age = simulationYear - car.year;
+      if (age > car.guarantee) {
         console.log(
-          `\n status on ${simulasiTahun} this guarantee status is expired`
+          `\n status on ${simulationYear} this guarantee status is expired`
         );
       } else {
         console.log(
-          `\n status on ${simulasiTahun} this guarantee status is active`
+          `\n status on ${simulationYear} this guarantee status is active`
         );
       }
     });
   }
 }
 
-const toyota = new PabrikMobil()
-toyota.produksi(2020)
-toyota.produksi(2022)
-toyota.simulasiGaransi(2025)
+const toyota = new CarFactory()
+toyota.produce(2020)
+toyota.produce(2022)
+toyota.guaranteeSimulation(2025)
